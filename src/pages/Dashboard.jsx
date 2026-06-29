@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Dashboard.css";
 
-/* ── Inline SVG icons (24×24, stroke-based, currentColor) ── */
+/* ── Inline SVG icons ──────────────────────────────────────── */
 function IconGrid() {
   return (
     <svg
@@ -22,7 +22,6 @@ function IconGrid() {
     </svg>
   );
 }
-
 function IconSparkle() {
   return (
     <svg
@@ -42,7 +41,6 @@ function IconSparkle() {
     </svg>
   );
 }
-
 function IconZap() {
   return (
     <svg
@@ -60,7 +58,25 @@ function IconZap() {
     </svg>
   );
 }
-
+function IconLayers() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
+    </svg>
+  );
+}
 function IconFile() {
   return (
     <svg
@@ -81,7 +97,6 @@ function IconFile() {
     </svg>
   );
 }
-
 function IconReceipt() {
   return (
     <svg
@@ -101,7 +116,6 @@ function IconReceipt() {
     </svg>
   );
 }
-
 function IconGear() {
   return (
     <svg
@@ -120,7 +134,6 @@ function IconGear() {
     </svg>
   );
 }
-
 function IconHeadset() {
   return (
     <svg
@@ -139,7 +152,6 @@ function IconHeadset() {
     </svg>
   );
 }
-
 function IconPeople() {
   return (
     <svg
@@ -160,7 +172,6 @@ function IconPeople() {
     </svg>
   );
 }
-
 function IconActivity() {
   return (
     <svg
@@ -178,19 +189,345 @@ function IconActivity() {
     </svg>
   );
 }
+function IconPlay() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  );
+}
 
-/* ── Nav item data ─────────────────────────────────────────── */
+/* ── Nav items ─────────────────────────────────────────────── */
 const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: <IconGrid /> },
   { id: "ai-agent", label: "AI Agent", icon: <IconSparkle /> },
   { id: "automasi", label: "Automasi", icon: <IconZap /> },
+  { id: "module", label: "Module", icon: <IconLayers /> },
   { id: "file", label: "File", icon: <IconFile /> },
   { id: "tagihan", label: "Tagihan", icon: <IconReceipt /> },
   { id: "pengaturan", label: "Pengaturan", icon: <IconGear /> },
   { id: "dukungan", label: "Dukungan", icon: <IconHeadset /> },
 ];
 
-/* ── Dashboard component ───────────────────────────────────── */
+/* ── Data: Automasi (product per-run) ──────────────────────── */
+const AUTOMASI_CARDS = [
+  {
+    id: "ats-cv",
+    title: "ATS-Friendly CV Converter",
+    desc: "Ubah CV lama berbasis teks menjadi format ATS-Friendly secara instan.",
+    type: "Automation",
+    pricing: "Free",
+    users: 4,
+  },
+  {
+    id: "invoice-gen",
+    title: "Invoice Generator",
+    desc: "Generate invoice profesional dari data sederhana dalam hitungan detik.",
+    type: "Automation",
+    pricing: "Free",
+    users: 12,
+  },
+  {
+    id: "email-blast",
+    title: "Email Blast Personalizer",
+    desc: "Personalisasi ratusan email marketing secara otomatis dengan AI.",
+    type: "Automation",
+    pricing: "Paid",
+    users: 31,
+  },
+  {
+    id: "social-caption",
+    title: "Social Media Caption AI",
+    desc: "Generate caption Instagram, Twitter, dan LinkedIn dari brief singkat.",
+    type: "Automation",
+    pricing: "Free",
+    users: 58,
+  },
+  {
+    id: "pdf-summarizer",
+    title: "PDF Summarizer",
+    desc: "Rangkum dokumen PDF panjang menjadi poin-poin penting dalam menit.",
+    type: "Automation",
+    pricing: "Paid",
+    users: 19,
+  },
+  {
+    id: "data-cleaner",
+    title: "Data Cleaner & Formatter",
+    desc: "Bersihkan dan format data spreadsheet kotor secara otomatis.",
+    type: "Automation",
+    pricing: "Paid",
+    users: 7,
+  },
+];
+
+/* ── Data: Module (fitur besar / produk penuh) ─────────────── */
+const MODULE_CARDS = [
+  {
+    id: "keuangan-pribadi",
+    title: "Manajer Keuangan Pribadi",
+    desc: "Lacak pengeluaran, buat anggaran, dan analisis pola keuangan bulanan kamu secara otomatis.",
+    category: "Keuangan",
+    pricing: "Free",
+    users: 143,
+  },
+  {
+    id: "crm-lite",
+    title: "CRM Lite",
+    desc: "Kelola kontak, pipeline penjualan, dan follow-up klien dalam satu tempat yang sederhana.",
+    category: "Bisnis",
+    pricing: "Pro",
+    users: 67,
+  },
+  {
+    id: "hr-attendance",
+    title: "HR Attendance Tracker",
+    desc: "Catat kehadiran karyawan, kelola izin, dan generate laporan bulanan otomatis.",
+    category: "HR",
+    pricing: "Pro",
+    users: 34,
+  },
+  {
+    id: "content-planner",
+    title: "Content Planner",
+    desc: "Rencanakan kalender konten, schedule posting, dan pantau performa konten kamu.",
+    category: "Marketing",
+    pricing: "Free",
+    users: 211,
+  },
+  {
+    id: "inventory-manager",
+    title: "Inventory Manager",
+    desc: "Pantau stok barang, kelola supplier, dan dapatkan notifikasi restock otomatis.",
+    category: "Operasional",
+    pricing: "Pro",
+    users: 88,
+  },
+  {
+    id: "project-tracker",
+    title: "Project Tracker",
+    desc: "Kelola proyek tim dengan task board, deadline, dan laporan progres mingguan.",
+    category: "Produktivitas",
+    pricing: "Free",
+    users: 176,
+  },
+];
+
+/* ── Reusable card component ───────────────────────────────── */
+function ProductCard({
+  title,
+  desc,
+  typeBadge,
+  pricingBadge,
+  users,
+  ctaLabel,
+}) {
+  return (
+    <article className="db-product-card">
+      <div className="db-product-card-header">
+        <div className="db-product-card-chips">
+          <span className={`db-chip db-chip-amber`}>{typeBadge}</span>
+          <span
+            className={`db-chip ${pricingBadge === "Free" ? "db-chip-green" : "db-chip-blue"}`}
+          >
+            {pricingBadge}
+          </span>
+        </div>
+      </div>
+      <h3 className="db-product-card-title">{title}</h3>
+      <p className="db-product-card-desc">{desc}</p>
+      <div className="db-product-card-footer">
+        <span className="db-usage-count">
+          <IconPeople />
+          {users} pengguna
+        </span>
+        <button
+          className="ghost-button"
+          style={{ fontSize: "13px", height: "32px", padding: "0 14px" }}
+        >
+          <IconPlay /> {ctaLabel}
+        </button>
+      </div>
+    </article>
+  );
+}
+
+/* ── View: Dashboard (home) ────────────────────────────────── */
+function ViewDashboard() {
+  return (
+    <>
+      <div className="db-welcome">
+        <h1 className="db-welcome-heading">Selamat Datang, Grou App! 👋</h1>
+        <p className="db-welcome-sub">
+          Siap mengotomasi proses bisnis Anda hari ini?
+        </p>
+      </div>
+
+      <div className="db-stats-row">
+        <div className="db-stat-card">
+          <div className="db-stat-top">
+            <span className="db-stat-value">0</span>
+            <span className="db-stat-label">Saldo</span>
+          </div>
+          <button
+            className="cta-button"
+            style={{
+              alignSelf: "flex-start",
+              fontSize: "13px",
+              height: "34px",
+              padding: "0 16px",
+            }}
+          >
+            Isi Saldo
+          </button>
+        </div>
+        <div className="db-stat-card">
+          <div className="db-stat-top">
+            <span className="db-stat-value">0</span>
+            <span className="db-stat-label">Automasi Aktif</span>
+          </div>
+        </div>
+        <div className="db-stat-card">
+          <div className="db-stat-top">
+            <span className="db-stat-value">0</span>
+            <span className="db-stat-label">Total Penggunaan bulan ini</span>
+          </div>
+        </div>
+      </div>
+
+      <section aria-labelledby="mulai-cepat-heading">
+        <div className="db-section-header">
+          <h2 className="db-section-title" id="mulai-cepat-heading">
+            Mulai Cepat
+          </h2>
+          <button className="db-section-link">Lihat Semua</button>
+        </div>
+        <div className="db-product-grid db-product-grid-1">
+          <ProductCard
+            title="ATS-Friendly CV Converter"
+            desc="Automasi berbasis AI untuk mengubah CV lama berbasis teks (bukan JPG) menjadi format yang ramah ATS secara instan dan gratis."
+            typeBadge="Automation"
+            pricingBadge="Free"
+            users={4}
+            ctaLabel="Jalankan"
+          />
+        </div>
+      </section>
+
+      <section aria-labelledby="aktivitas-heading">
+        <div className="db-section-header">
+          <h2 className="db-section-title" id="aktivitas-heading">
+            Aktivitas Terbaru
+          </h2>
+          <button className="db-section-link">Lihat Semua</button>
+        </div>
+        <div className="db-activity-list">
+          <div className="db-activity-item">
+            <div className="db-activity-icon" aria-hidden="true">
+              <IconActivity />
+            </div>
+            <div className="db-activity-body">
+              <div className="db-activity-row">
+                <span className="db-activity-title">
+                  ATS-Friendly CV Converter
+                </span>
+                <div className="db-activity-meta">
+                  <span className="db-chip db-chip-green">Completed</span>
+                  <span className="db-activity-time">2 hours ago</span>
+                </div>
+              </div>
+              <p className="db-activity-snippet">CV telah siap...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/* ── View: Automasi ────────────────────────────────────────── */
+function ViewAutomasi() {
+  return (
+    <>
+      <div className="db-view-header">
+        <div>
+          <h1 className="db-view-title">Automasi</h1>
+          <p className="db-view-sub">
+            Jalankan automasi sekali klik — setiap kartu adalah satu pekerjaan
+            spesifik.
+          </p>
+        </div>
+      </div>
+      <div className="db-product-grid">
+        {AUTOMASI_CARDS.map((item) => (
+          <ProductCard
+            key={item.id}
+            title={item.title}
+            desc={item.desc}
+            typeBadge={item.type}
+            pricingBadge={item.pricing}
+            users={item.users}
+            ctaLabel="Jalankan"
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+/* ── View: Module ──────────────────────────────────────────── */
+function ViewModule() {
+  return (
+    <>
+      <div className="db-view-header">
+        <div>
+          <h1 className="db-view-title">Module</h1>
+          <p className="db-view-sub">
+            Sistem lengkap yang bisa kamu aktifkan — bukan satu tugas, tapi satu
+            solusi penuh.
+          </p>
+        </div>
+      </div>
+      <div className="db-product-grid">
+        {MODULE_CARDS.map((item) => (
+          <ProductCard
+            key={item.id}
+            title={item.title}
+            desc={item.desc}
+            typeBadge={item.category}
+            pricingBadge={item.pricing}
+            users={item.users}
+            ctaLabel="Buka"
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
+/* ── View: placeholder for other nav items ─────────────────── */
+function ViewPlaceholder({ label }) {
+  return (
+    <div className="db-placeholder">
+      <span className="db-placeholder-label">{label}</span>
+      <p className="db-placeholder-sub">
+        Halaman ini sedang dalam pengembangan.
+      </p>
+    </div>
+  );
+}
+
+/* ── Main Dashboard component ──────────────────────────────── */
 export default function Dashboard() {
   const [activeNav, setActiveNav] = useState("dashboard");
 
@@ -199,16 +536,32 @@ export default function Dashboard() {
     window.history.pushState({}, "", "/dashboard");
   }
 
+  function renderView() {
+    switch (activeNav) {
+      case "dashboard":
+        return <ViewDashboard />;
+      case "automasi":
+        return <ViewAutomasi />;
+      case "module":
+        return <ViewModule />;
+      default:
+        return (
+          <ViewPlaceholder
+            label={
+              NAV_ITEMS.find((n) => n.id === activeNav)?.label ?? activeNav
+            }
+          />
+        );
+    }
+  }
+
   return (
     <div className="db-shell">
-      {/* ── Sidebar ─────────────────────────────────────────── */}
       <aside className="db-sidebar">
-        {/* Logo */}
         <div className="db-sidebar-logo">
           <span className="db-wordmark">SiapPakai</span>
         </div>
 
-        {/* Nav */}
         <nav aria-label="Main navigation">
           <ul className="db-nav" role="list">
             {NAV_ITEMS.map((item) => (
@@ -226,7 +579,6 @@ export default function Dashboard() {
           </ul>
         </nav>
 
-        {/* User footer */}
         <div className="db-sidebar-footer">
           <div className="db-avatar" aria-hidden="true">
             GA
@@ -238,117 +590,8 @@ export default function Dashboard() {
         </div>
       </aside>
 
-      {/* ── Main content ────────────────────────────────────── */}
       <main className="db-main">
-        <div className="db-main-inner">
-          {/* Welcome bar */}
-          <div className="db-welcome">
-            <h1 className="db-welcome-heading">Selamat Datang, Grou App! 👋</h1>
-            <p className="db-welcome-sub">
-              Siap mengotomasi proses bisnis Anda hari ini?
-            </p>
-          </div>
-
-          {/* Stats row */}
-          <div className="db-stats-row">
-            {/* Saldo */}
-            <div className="db-stat-card">
-              <div className="db-stat-top">
-                <span className="db-stat-value">0</span>
-                <span className="db-stat-label">Saldo</span>
-              </div>
-              <button
-                className="cta-button"
-                style={{
-                  alignSelf: "flex-start",
-                  fontSize: "13px",
-                  padding: "7px 16px",
-                }}
-              >
-                Isi Saldo
-              </button>
-            </div>
-
-            {/* Automasi Aktif */}
-            <div className="db-stat-card">
-              <div className="db-stat-top">
-                <span className="db-stat-value">0</span>
-                <span className="db-stat-label">Automasi Aktif</span>
-              </div>
-            </div>
-
-            {/* Total Penggunaan */}
-            <div className="db-stat-card">
-              <div className="db-stat-top">
-                <span className="db-stat-value">0</span>
-                <span className="db-stat-label">
-                  Total Penggunaan bulan ini
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Mulai Cepat */}
-          <section aria-labelledby="mulai-cepat-heading">
-            <div className="db-section-header">
-              <h2 className="db-section-title" id="mulai-cepat-heading">
-                Mulai Cepat
-              </h2>
-              <button className="db-section-link">Lihat Semua</button>
-            </div>
-
-            <div className="db-auto-card" role="button" tabIndex={0}>
-              <div className="db-auto-card-header">
-                <span className="db-chip db-chip-amber">Automation</span>
-                <span className="db-chip db-chip-green">Free</span>
-              </div>
-
-              <h3 className="db-auto-card-title">ATS-Friendly CV Converter</h3>
-
-              <p className="db-auto-card-desc">
-                Automasi berbasis AI untuk mengubah CV lama berbasis teks (bukan
-                JPG) menjadi format yang ramah ATS (ATS-Friendly) secara instan
-                dan gratis.
-              </p>
-
-              <div className="db-auto-card-footer">
-                <span className="db-usage-count">
-                  <IconPeople />4 pengguna
-                </span>
-              </div>
-            </div>
-          </section>
-
-          {/* Aktivitas Terbaru */}
-          <section aria-labelledby="aktivitas-heading">
-            <div className="db-section-header">
-              <h2 className="db-section-title" id="aktivitas-heading">
-                Aktivitas Terbaru
-              </h2>
-              <button className="db-section-link">Lihat Semua</button>
-            </div>
-
-            <div className="db-activity-list">
-              <div className="db-activity-item">
-                <div className="db-activity-icon" aria-hidden="true">
-                  <IconActivity />
-                </div>
-                <div className="db-activity-body">
-                  <div className="db-activity-row">
-                    <span className="db-activity-title">
-                      ATS-Friendly CV Converter
-                    </span>
-                    <div className="db-activity-meta">
-                      <span className="db-chip db-chip-green">Completed</span>
-                      <span className="db-activity-time">2 hours ago</span>
-                    </div>
-                  </div>
-                  <p className="db-activity-snippet">CV telah siap...</p>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
+        <div className="db-main-inner">{renderView()}</div>
       </main>
     </div>
   );
