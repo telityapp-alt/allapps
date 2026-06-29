@@ -204,7 +204,7 @@
     font-size: 13px;
     font-weight: 600;
     color: #7b8594;
-    margin-top: -20px;
+    margin-top: 8px;
 }
 
 .ca-progress-track {
@@ -1091,6 +1091,99 @@
     height: 100%;
     display: block;
     overflow: visible;
+}
+
+/* ── Roster table ─────────────────────────────────────────── */
+.ca-table-wrap {
+    background: #fffdf8;
+    border: 1px solid #d9d1c2;
+    border-bottom-width: 2px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 -3px 0 rgba(21, 19, 16, 0.09),
+        0 1px 3px rgba(21, 19, 16, 0.07),
+        0 4px 12px rgba(21, 19, 16, 0.05);
+}
+
+.ca-table-head {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #f0ede6;
+    border-bottom: 1px solid #d9d1c2;
+    font-family: "Source Sans 3", "Segoe UI", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7b8594;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    gap: 8px;
+}
+
+.ca-table-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e8e2d8;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 120ms ease;
+    min-height: 52px;
+}
+
+.ca-table-row:last-child {
+    border-bottom: none;
+}
+
+.ca-table-row:hover {
+    background: #faf6ee;
+}
+
+.ca-favicon-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.ca-tbl-val {
+    font-family: "Source Sans 3", "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0d1d38;
+    letter-spacing: -0.01em;
+}
+
+.ca-row-arrow {
+    font-size: 18px;
+    color: #a09888;
+    line-height: 1;
+}
+
+.ca-comp-domain {
+    font-family: "Source Sans 3", "Segoe UI", sans-serif;
+    font-weight: 700;
+    color: #0d1d38;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ca-comp-meta {
+    font-family: "Source Sans 3", "Segoe UI", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7b8594;
+    white-space: nowrap;
 }
 
 /* ── Responsive ────────────────────────────────────────────── */
