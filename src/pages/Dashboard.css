@@ -192,11 +192,26 @@
 .db-stat-card {
     background: #fffdf8;
     border: 1px solid #d9d1c2;
+    border-bottom-width: 2px;
     border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 14px;
+    box-shadow:
+        inset 0 -3px 0 rgba(21, 19, 16, 0.09),
+        0 1px 3px rgba(21, 19, 16, 0.07),
+        0 4px 12px rgba(21, 19, 16, 0.05);
+    transition:
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.db-stat-card:hover {
+    transform: translateY(2px);
+    box-shadow:
+        inset 0 2px 4px rgba(21, 19, 16, 0.05),
+        0 1px 2px rgba(21, 19, 16, 0.04);
 }
 
 .db-stat-top {
@@ -260,20 +275,27 @@
 .db-auto-card {
     background: #fffdf8;
     border: 1px solid #d9d1c2;
+    border-bottom-width: 2px;
     border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 12px;
     cursor: pointer;
+    box-shadow:
+        inset 0 -3px 0 rgba(21, 19, 16, 0.09),
+        0 1px 3px rgba(21, 19, 16, 0.07),
+        0 4px 12px rgba(21, 19, 16, 0.05);
     transition:
-        transform 0.15s,
-        box-shadow 0.15s;
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .db-auto-card:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(2px);
+    box-shadow:
+        inset 0 2px 4px rgba(21, 19, 16, 0.05),
+        0 1px 2px rgba(21, 19, 16, 0.04);
 }
 
 .db-auto-card-header {
@@ -352,8 +374,13 @@
 .db-activity-list {
     background: #fffdf8;
     border: 1px solid #d9d1c2;
+    border-bottom-width: 2px;
     border-radius: 12px;
     overflow: hidden;
+    box-shadow:
+        inset 0 -3px 0 rgba(21, 19, 16, 0.09),
+        0 1px 3px rgba(21, 19, 16, 0.07),
+        0 4px 12px rgba(21, 19, 16, 0.05);
 }
 
 .db-activity-item {
