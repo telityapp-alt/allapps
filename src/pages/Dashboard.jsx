@@ -857,8 +857,6 @@ function ViewAIAgentChat({
                   }}
                 >
                   <span className="ai-history-title">{chat.title}</span>
-                  <span className="ai-history-preview">{chat.preview}</span>
-                  <span className="ai-history-time">{chat.time}</span>
                 </button>
               </li>
             ))}
@@ -885,71 +883,75 @@ function ViewAIAgentChat({
 
         {/* Messages */}
         <div className="ai-messages" role="log" aria-live="polite">
-          {messages.length === 0 ? (
-            <div className="ai-messages-empty">
-              <div>
-                <p className="ai-messages-empty-heading">Halo, Grou App 👋</p>
-                <p className="ai-messages-empty-sub">Mau mulai dari mana?</p>
-              </div>
-              <div className="ai-messages-empty-skills">
-                {AI_SKILLS.map((skill) => (
-                  <button
-                    key={skill.id}
-                    className="ai-messages-empty-skill-btn"
-                    onClick={() => {
-                      setInputValue(skill.title + " — ");
-                      textareaRef.current?.focus();
-                    }}
-                  >
-                    <span className="ai-messages-empty-skill-icon">
-                      {skill.icon}
-                    </span>
-                    <span className="ai-messages-empty-skill-title">
-                      {skill.title}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            messages.map((msg) =>
-              msg.role === "user" ? (
-                <div key={msg.id} className="ai-msg-row ai-msg-row--user">
-                  <div className="ai-bubble ai-bubble--user">{msg.text}</div>
+          <div className="ai-messages-inner">
+            {messages.length === 0 ? (
+              <div className="ai-messages-empty">
+                <div>
+                  <p className="ai-messages-empty-heading">Halo, Grou App 👋</p>
+                  <p className="ai-messages-empty-sub">Mau mulai dari mana?</p>
                 </div>
-              ) : (
-                <div key={msg.id} className="ai-msg-row ai-msg-row--ai">
-                  <div className="ai-avatar-sp" aria-label="SiapPakai AI">
-                    SP
+                <div className="ai-messages-empty-skills">
+                  {AI_SKILLS.map((skill) => (
+                    <button
+                      key={skill.id}
+                      className="ai-messages-empty-skill-btn"
+                      onClick={() => {
+                        setInputValue(skill.title + " — ");
+                        textareaRef.current?.focus();
+                      }}
+                    >
+                      <span className="ai-messages-empty-skill-icon">
+                        {skill.icon}
+                      </span>
+                      <span className="ai-messages-empty-skill-title">
+                        {skill.title}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              messages.map((msg) =>
+                msg.role === "user" ? (
+                  <div key={msg.id} className="ai-msg-row ai-msg-row--user">
+                    <div className="ai-bubble ai-bubble--user">{msg.text}</div>
                   </div>
-                  <div className="ai-bubble ai-bubble--ai">{msg.text}</div>
-                </div>
-              ),
-            )
-          )}
+                ) : (
+                  <div key={msg.id} className="ai-msg-row ai-msg-row--ai">
+                    <div className="ai-avatar-sp" aria-label="SiapPakai AI">
+                      SP
+                    </div>
+                    <div className="ai-bubble ai-bubble--ai">{msg.text}</div>
+                  </div>
+                ),
+              )
+            )}
+          </div>
           <div ref={messagesEndRef} />
         </div>
 
         {/* Input area */}
         <div className="ai-chat-input-area">
-          <div className="ai-chat-input-bar">
-            <textarea
-              ref={textareaRef}
-              className="ai-chat-textarea"
-              placeholder="Ketik pesan..."
-              rows={1}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              aria-label="Pesan ke SiapPakai AI"
-            />
-            <button
-              className="cta-button ai-chat-send-btn"
-              onClick={sendMessage}
-              aria-label="Kirim pesan"
-            >
-              <IconSend />
-            </button>
+          <div className="ai-chat-input-inner">
+            <div className="ai-chat-input-bar">
+              <textarea
+                ref={textareaRef}
+                className="ai-chat-textarea"
+                placeholder="Ketik pesan..."
+                rows={1}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                aria-label="Pesan ke SiapPakai AI"
+              />
+              <button
+                className="cta-button ai-chat-send-btn"
+                onClick={sendMessage}
+                aria-label="Kirim pesan"
+              >
+                <IconSend />
+              </button>
+            </div>
           </div>
         </div>
       </div>

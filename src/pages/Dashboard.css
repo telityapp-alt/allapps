@@ -636,8 +636,7 @@
     font-size: 11px;
     font-weight: 600;
     color: #f6a61e;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     line-height: 1;
     margin-bottom: 8px;
 }
@@ -879,8 +878,7 @@
     font-size: 11px;
     font-weight: 600;
     color: #7b8594;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     margin-bottom: 6px;
     padding: 0 4px;
 }
@@ -897,9 +895,8 @@
 .ai-history-item {
     display: flex;
     flex-direction: column;
-    gap: 2px;
     width: 100%;
-    padding: 9px 10px;
+    padding: 7px 10px;
     border-radius: 8px;
     background: none;
     border: none;
@@ -930,25 +927,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
-}
-
-.ai-history-preview {
-    font-size: 12px;
-    font-weight: 500;
-    color: #7b8594;
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-}
-
-.ai-history-time {
-    font-size: 11px;
-    font-weight: 500;
-    color: #7b8594;
-    display: block;
-    margin-top: 1px;
 }
 
 .ai-new-chat-btn {
@@ -1000,11 +978,22 @@
 .ai-messages {
     flex: 1;
     overflow-y: auto;
-    padding: 28px 40px;
+    padding: 28px 0;
     display: flex;
     flex-direction: column;
     gap: 20px;
     min-height: 0;
+}
+
+/* Inner wrapper — centers content with max-width */
+.ai-messages-inner {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .ai-messages-empty {
@@ -1155,9 +1144,16 @@
 
 .ai-chat-input-area {
     flex-shrink: 0;
-    padding: 12px 40px 20px;
+    padding: 12px 0 20px;
     background: #f5ecd9;
     border-top: 1px solid #d9d1c2;
+}
+
+.ai-chat-input-inner {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 32px;
 }
 
 .ai-chat-input-bar {
