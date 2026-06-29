@@ -248,7 +248,17 @@ const NAV_ITEMS = [
 /* ── Data: Automasi (product per-run) ──────────────────────── */
 const AUTOMASI_CARDS = [
   {
-    id: "ats-cv",
+    id: "competitor-analyzer",
+    title: "Competitor Analyzer",
+    desc: "Pantau kompetitor kamu secara real-time — traffic, SEO, media sosial, tech stack, dan perubahan terbaru dalam satu dashboard.",
+    type: "App",
+    pricing: "Pro",
+    costPerRun: 0,
+    users: 38,
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop&auto=format",
+  },
+  {
     title: "ATS-Friendly CV Converter",
     desc: "Ubah CV lama berbasis teks menjadi format ATS-Friendly secara instan.",
     type: "Automation",
@@ -539,7 +549,9 @@ function ViewDashboard({ onNavigate, onTopUp }) {
         </div>
         <div className="db-stat-card">
           <div className="db-stat-top">
-            <span className="db-stat-value">{recent.filter((r) => r.status === "running").length}</span>
+            <span className="db-stat-value">
+              {recent.filter((r) => r.status === "running").length}
+            </span>
             <span className="db-stat-label">Automasi Aktif</span>
           </div>
         </div>
@@ -556,7 +568,10 @@ function ViewDashboard({ onNavigate, onTopUp }) {
           <h2 className="db-section-title" id="mulai-cepat-heading">
             Mulai Cepat
           </h2>
-          <button className="db-section-link" onClick={() => onNavigate("automasi")}>
+          <button
+            className="db-section-link"
+            onClick={() => onNavigate("automasi")}
+          >
             Lihat Semua
           </button>
         </div>
@@ -578,7 +593,10 @@ function ViewDashboard({ onNavigate, onTopUp }) {
           <h2 className="db-section-title" id="aktivitas-heading">
             Aktivitas Terbaru
           </h2>
-          <button className="db-section-link" onClick={() => onNavigate("automasi")}>
+          <button
+            className="db-section-link"
+            onClick={() => onNavigate("automasi")}
+          >
             Lihat Semua
           </button>
         </div>
@@ -628,7 +646,7 @@ function ViewDashboard({ onNavigate, onTopUp }) {
 }
 
 /* ── View: Automasi ────────────────────────────────────────── */
-function ViewAutomasi() {
+function ViewAutomasi({ onOpenApp }) {
   const toast = useToast();
   const [items, setItems] = useState(null);
   const [busyId, setBusyId] = useState(null);
@@ -641,18 +659,27 @@ function ViewAutomasi() {
       .order("sort_order")
       .then(({ data }) => {
         setItems(
-          data && data.length
-            ? data.map((d) => ({
-                id: d.slug,
-                title: d.title,
-                desc: d.description,
-                type: d.type,
-                pricing: d.pricing,
-                costPerRun: d.cost_per_run,
-                users: 0,
-                image: d.image,
-              }))
-            : AUTOMASI_CARDS,
+          ((dbList) => {
+            // Always ensure App-type cards from AUTOMASI_CARDS are present
+            // (they may not exist in the DB yet).
+            const appCards = AUTOMASI_CARDS.filter((c) => c.type === "App");
+            const dbIds = new Set(dbList.map((d) => d.id));
+            const missing = appCards.filter((c) => !dbIds.has(c.id));
+            return [...missing, ...dbList];
+          })(
+            data && data.length
+              ? data.map((d) => ({
+                  id: d.slug,
+                  title: d.title,
+                  desc: d.description,
+                  type: d.type,
+                  pricing: d.pricing,
+                  costPerRun: d.cost_per_run,
+                  users: 0,
+                  image: d.image,
+                }))
+              : AUTOMASI_CARDS,
+          ),
         );
       });
   }, []);
@@ -699,11 +726,15 @@ function ViewAutomasi() {
             typeBadge={item.type}
             pricingBadge={item.pricing}
             users={item.users}
-            ctaLabel="Jalankan"
+            ctaLabel={item.type === "App" ? "Buka" : "Jalankan"}
             image={item.image}
             costPerRun={item.costPerRun}
+            onCta={() =>
+              item.type === "App"
+                ? onOpenApp(item.id)
+                : run(item.id, item.title)
+            }
             busy={busyId === item.id}
-            onCta={() => run(item.id, item.title)}
           />
         ))}
       </div>
@@ -1085,7 +1116,11 @@ function ViewAIAgentChat({
           if (res?.chatId) setServerChatId(res.chatId);
           setMessages((prev) => [
             ...prev,
-            { id: Date.now() + 1, role: "ai", text: res?.reply || "(tidak ada respons)" },
+            {
+              id: Date.now() + 1,
+              role: "ai",
+              text: res?.reply || "(tidak ada respons)",
+            },
           ]);
           reloadChats?.();
         })
@@ -1112,7 +1147,11 @@ function ViewAIAgentChat({
       if (res?.chatId) setServerChatId(res.chatId);
       setMessages((prev) => [
         ...prev,
-        { id: Date.now() + 1, role: "ai", text: res?.reply || "(tidak ada respons)" },
+        {
+          id: Date.now() + 1,
+          role: "ai",
+          text: res?.reply || "(tidak ada respons)",
+        },
       ]);
       if (wasNew) reloadChats?.();
     } catch (e) {
@@ -1338,9 +1377,17 @@ function ViewPengaturan() {
           </label>
           <label className="db-field">
             <span>Email</span>
-            <input className="db-field-input" value={user?.email || ""} disabled />
+            <input
+              className="db-field-input"
+              value={user?.email || ""}
+              disabled
+            />
           </label>
-          <button type="submit" className="cta-button db-settings-save" disabled={saving}>
+          <button
+            type="submit"
+            className="cta-button db-settings-save"
+            disabled={saving}
+          >
             {saving ? "Menyimpan..." : "Simpan perubahan"}
           </button>
         </form>
@@ -1350,7 +1397,9 @@ function ViewPengaturan() {
 
       <div className="db-settings-card">
         <h2 className="db-settings-card-title">Akun</h2>
-        <p className="db-settings-card-sub">Dokumen legal dan informasi akun.</p>
+        <p className="db-settings-card-sub">
+          Dokumen legal dan informasi akun.
+        </p>
         <div className="db-settings-links">
           <a href="/privacy" target="_blank" rel="noopener noreferrer">
             Kebijakan Privasi
@@ -1412,7 +1461,11 @@ function ChangePasswordCard() {
             autoComplete="new-password"
           />
         </label>
-        <button type="submit" className="cta-button db-settings-save" disabled={saving}>
+        <button
+          type="submit"
+          className="cta-button db-settings-save"
+          disabled={saving}
+        >
           {saving ? "Menyimpan..." : "Ganti password"}
         </button>
       </form>
@@ -1458,18 +1511,27 @@ function ViewTagihan() {
       <div className="db-view-header">
         <div>
           <h1 className="db-view-title">Tagihan</h1>
-          <p className="db-view-sub">Saldo kredit dan riwayat transaksi kamu.</p>
+          <p className="db-view-sub">
+            Saldo kredit dan riwayat transaksi kamu.
+          </p>
         </div>
       </div>
       <div className="db-stats-row">
         <div className="db-stat-card">
           <div className="db-stat-top">
-            <span className="db-stat-value">{profile?.credits_balance ?? 0}</span>
+            <span className="db-stat-value">
+              {profile?.credits_balance ?? 0}
+            </span>
             <span className="db-stat-label">Saldo kredit</span>
           </div>
           <button
             className="cta-button"
-            style={{ alignSelf: "flex-start", fontSize: "13px", height: "34px", padding: "0 16px" }}
+            style={{
+              alignSelf: "flex-start",
+              fontSize: "13px",
+              height: "34px",
+              padding: "0 16px",
+            }}
             onClick={topUp}
             disabled={busy}
           >
@@ -1503,7 +1565,11 @@ function ViewTagihan() {
                 <div className="db-activity-body">
                   <div className="db-activity-row">
                     <span className="db-activity-title">
-                      {t.kind === "topup" ? "Isi Saldo" : t.kind === "spend" ? "Penggunaan" : "Penyesuaian"}{" "}
+                      {t.kind === "topup"
+                        ? "Isi Saldo"
+                        : t.kind === "spend"
+                          ? "Penggunaan"
+                          : "Penyesuaian"}{" "}
                       · {t.amount} kredit
                     </span>
                     <div className="db-activity-meta">
@@ -1512,7 +1578,9 @@ function ViewTagihan() {
                       >
                         {t.status}
                       </span>
-                      <span className="db-activity-time">{relativeTime(t.created_at)}</span>
+                      <span className="db-activity-time">
+                        {relativeTime(t.created_at)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1558,7 +1626,9 @@ function ViewFile() {
       <div className="db-view-header">
         <div>
           <h1 className="db-view-title">File</h1>
-          <p className="db-view-sub">Hasil dari automasi yang sudah kamu jalankan.</p>
+          <p className="db-view-sub">
+            Hasil dari automasi yang sudah kamu jalankan.
+          </p>
         </div>
       </div>
       <div className="db-activity-list">
@@ -1586,10 +1656,16 @@ function ViewFile() {
                 <div className="db-activity-row">
                   <span className="db-activity-title">{r.title}</span>
                   <div className="db-activity-meta">
-                    <span className="db-activity-time">{relativeTime(r.created_at)}</span>
+                    <span className="db-activity-time">
+                      {relativeTime(r.created_at)}
+                    </span>
                     <button
                       className="ghost-button"
-                      style={{ fontSize: "12px", height: "28px", padding: "0 12px" }}
+                      style={{
+                        fontSize: "12px",
+                        height: "28px",
+                        padding: "0 12px",
+                      }}
                       onClick={() => download(r)}
                     >
                       Unduh
@@ -1625,7 +1701,12 @@ function ViewDukungan() {
             <div className="db-product-card-footer">
               <a
                 className="ghost-button"
-                style={{ fontSize: "13px", height: "32px", padding: "0 14px", textDecoration: "none" }}
+                style={{
+                  fontSize: "13px",
+                  height: "32px",
+                  padding: "0 14px",
+                  textDecoration: "none",
+                }}
                 href="mailto:support@aikit.id"
               >
                 support@aikit.id
@@ -1642,7 +1723,12 @@ function ViewDukungan() {
             <div className="db-product-card-footer">
               <a
                 className="ghost-button"
-                style={{ fontSize: "13px", height: "32px", padding: "0 14px", textDecoration: "none" }}
+                style={{
+                  fontSize: "13px",
+                  height: "32px",
+                  padding: "0 14px",
+                  textDecoration: "none",
+                }}
                 href="https://wa.me/6281234567890"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -1746,7 +1832,11 @@ export default function Dashboard() {
           <ViewDashboard onNavigate={handleNavClick} onTopUp={handleTopUp} />
         );
       case "automasi":
-        return <ViewAutomasi />;
+        return (
+          <ViewAutomasi
+            onOpenApp={(slug) => navigate(`/dashboard/module/${slug}`)}
+          />
+        );
       case "module":
         return moduleSlug ? (
           <ViewModuleHost
@@ -1754,7 +1844,9 @@ export default function Dashboard() {
             onBack={() => navigate("/dashboard/module")}
           />
         ) : (
-          <ViewModule onOpen={(slug) => navigate(`/dashboard/module/${slug}`)} />
+          <ViewModule
+            onOpen={(slug) => navigate(`/dashboard/module/${slug}`)}
+          />
         );
       case "ai-agent":
         return (
