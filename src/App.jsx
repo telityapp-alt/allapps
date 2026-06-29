@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
+import Dashboard from "./pages/Dashboard.jsx";
 
 const tabs = [
   {
@@ -521,6 +522,20 @@ function MiniAppWindow({ variant }) {
 function App() {
   const [activeTab, setActiveTab] = useState("business");
   const currentTab = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
+
+  // Pathname-based routing — no react-router
+  const [route, setRoute] = useState(
+    window.location.pathname === "/dashboard" ? "dashboard" : "home",
+  );
+  useEffect(() => {
+    const onPop = () =>
+      setRoute(
+        window.location.pathname === "/dashboard" ? "dashboard" : "home",
+      );
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  if (route === "dashboard") return <Dashboard />;
 
   return (
     <div className="page-shell">
