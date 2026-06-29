@@ -2,7 +2,10 @@ store this as a new MD bro styling guide : # Apphunt — Styling Guide
 
 Reference lengkap design system. Setiap komponen baru harus mengikuti guide ini. Jangan improvisasi warna, shadow, atau spacing di luar yang terdefinisi di sini.
 
+FATAL : NO EXTRABOLD, NO ALL UPPERCASE, NO ITALIC, WAJIB ALL PROPERLY NORMAL.
+
 ---
+
 
 ## 1. Design Tokens
 
