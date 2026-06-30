@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "./App.css";
 import { useAuth } from "./lib/AuthContext";
 import AuthModal from "./components/AuthModal.jsx";
+import { MASCOTS } from "./lib/mascots";
 
 const tabs = [
   {
@@ -671,9 +672,15 @@ function App() {
             <div className="hero-visual">
               <div className="hero-image-shell">
                 <img
-                  src="/builders-hero.png"
+                  src={MASCOTS.laptop}
                   alt="aikit hedgehog mascot working at a desk"
                   className="hero-generated-image"
+                />
+                <img
+                  src={MASCOTS.celebrate}
+                  alt=""
+                  aria-hidden="true"
+                  className="hero-sticker hero-sticker-success"
                 />
               </div>
             </div>
@@ -839,7 +846,15 @@ function App() {
 
         <footer className="site-footer">
           <div className="site-footer-inner">
-            <span className="site-footer-brand">aikit</span>
+            <div className="site-footer-brand-wrap">
+              <img
+                src={MASCOTS.footer}
+                alt=""
+                aria-hidden="true"
+                className="site-footer-mascot"
+              />
+              <span className="site-footer-brand">aikit</span>
+            </div>
             <nav className="site-footer-links" aria-label="Footer">
               <Link to="/privacy">Kebijakan Privasi</Link>
               <Link to="/terms">Syarat dan Ketentuan</Link>

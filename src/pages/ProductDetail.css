@@ -196,6 +196,7 @@
   top: 24px;
 }
 .pd-price-card {
+  position: relative;
   background: #fffdf8;
   border: 1px solid #d9d1c2;
   border-radius: 16px;

@@ -323,6 +323,7 @@
 .hero-image-shell {
     width: 404px;
     max-width: 100%;
+    position: relative;
     border-radius: 26px;
     transform: rotate(-3.25deg) translateY(6px);
     transform-origin: 78% 72%;
@@ -1013,6 +1014,11 @@
         width: min(404px, 100%);
     }
 
+    .hero-sticker {
+        right: -20px;
+        width: 120px;
+    }
+
     .panel-card {
         grid-template-columns: 1fr;
     }
@@ -1086,6 +1092,12 @@
         width: min(100%, 390px);
     }
 
+    .hero-sticker {
+        right: 0;
+        bottom: -20px;
+        width: 104px;
+    }
+
     .tabs {
         gap: 10px;
         padding: 0;
@@ -1150,4 +1162,24 @@
     font-size: 13px;
     font-weight: 500;
     color: #7b8594;
+}
+
+.hero-sticker {
+    position: absolute;
+    right: -42px;
+    bottom: -28px;
+    width: 138px;
+    pointer-events: none;
+    filter: drop-shadow(0 16px 24px rgba(13, 29, 56, 0.16));
+}
+
+.site-footer-brand-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.site-footer-mascot {
+    width: 58px;
+    flex: 0 0 auto;
 }

@@ -6,6 +6,7 @@ import { useToast } from "../lib/ToastContext";
 import { supabase } from "../lib/supabase";
 import { api } from "../lib/api";
 import { getModuleComponent } from "../modules/registry";
+import { MASCOTS } from "../lib/mascots";
 
 /* ── Inline SVG icons ──────────────────────────────────────── */
 function IconGrid() {
@@ -660,8 +661,6 @@ function ViewAutomasi({ onOpenApp }) {
       .then(({ data }) => {
         setItems(
           ((dbList) => {
-            // Always ensure App-type cards from AUTOMASI_CARDS are present
-            // (they may not exist in the DB yet).
             const appCards = AUTOMASI_CARDS.filter((c) => c.type === "App");
             const dbIds = new Set(dbList.map((d) => d.id));
             const missing = appCards.filter((c) => !dbIds.has(c.id));
@@ -689,7 +688,6 @@ function ViewAutomasi({ onOpenApp }) {
     try {
       const { run: started } = await api.runAutomation(slug, {});
       toast.info(`"${title}" sedang diproses...`);
-      // Poll the run row (RLS-scoped) until it finishes.
       const finalStatus = await pollRun(started.id, 30000);
       if (finalStatus === "completed") {
         toast.success(`"${title}" selesai. Lihat hasilnya di menu File.`);
@@ -705,43 +703,44 @@ function ViewAutomasi({ onOpenApp }) {
     }
   }
 
-  const list = items ?? AUTOMASI_CARDS;
   return (
     <>
       <div className="db-view-header">
         <div>
           <h1 className="db-view-title">Automasi</h1>
           <p className="db-view-sub">
-            Jalankan automasi sekali klik — setiap kartu adalah satu pekerjaan
-            spesifik.
+            Sekali klik untuk menjalankan automasi yang kamu butuhkan.
           </p>
         </div>
       </div>
+
       <div className="db-product-grid">
-        {list.map((item) => (
-          <ProductCard
-            key={item.id}
-            title={item.title}
-            desc={item.desc}
-            typeBadge={item.type}
-            pricingBadge={item.pricing}
-            users={item.users}
-            ctaLabel={item.type === "App" ? "Buka" : "Jalankan"}
-            image={item.image}
-            costPerRun={item.costPerRun}
-            onCta={() =>
-              item.type === "App"
-                ? onOpenApp(item.id)
-                : run(item.id, item.title)
-            }
-            busy={busyId === item.id}
-          />
-        ))}
+        {(items ?? AUTOMASI_CARDS).map((item) => {
+          const isApp = item.type === "App";
+          const isBusy = busyId === item.id;
+
+          return (
+            <ProductCard
+              key={item.id || item.title}
+              title={item.title}
+              desc={item.desc}
+              typeBadge={item.type}
+              pricingBadge={item.pricing}
+              users={item.users ?? 0}
+              ctaLabel={isApp ? "Buka" : "Jalankan"}
+              image={item.image}
+              costPerRun={item.costPerRun}
+              busy={isBusy}
+              onCta={() =>
+                isApp ? onOpenApp(item.id) : run(item.id, item.title)
+              }
+            />
+          );
+        })}
       </div>
     </>
   );
 }
-
 /* ── View: Module ──────────────────────────────────────────── */
 function ViewModule({ onOpen }) {
   const [items, setItems] = useState(null);
@@ -1017,6 +1016,13 @@ function ViewAIAgentHome({
   return (
     <div className="ai-home">
       <div className="ai-home-center">
+        <div className="ai-home-mascot-wrap" aria-hidden="true">
+          <img
+            src={MASCOTS.chat}
+            alt=""
+            className="ai-home-mascot"
+          />
+        </div>
         {/* Greeting */}
         <div className="ai-home-greeting">
           <span className="ai-eyebrow">AI Agent</span>
@@ -1957,3 +1963,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
