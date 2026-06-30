@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./Dashboard.css";
 import { useAuth } from "../lib/AuthContext";
 import { useToast } from "../lib/ToastContext";
 import { supabase } from "../lib/supabase";
@@ -1963,4 +1962,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
 

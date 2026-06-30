@@ -2,33 +2,16 @@ import { Link } from "react-router-dom";
 
 export default function NotFound() {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#f5ecd9",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 24,
-        textAlign: "center",
-        color: "#29405f",
-      }}
-    >
+    <div className="min-h-screen bg-sand p-6 text-center text-ink-mid flex items-center justify-center">
       <div>
-        <p style={{ fontSize: 48, fontWeight: 700, color: "#0d1d38", margin: 0 }}>
-          404
-        </p>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#0d1d38" }}>
+        <p className="m-0 text-5xl font-bold text-ink-dark">404</p>
+        <h1 className="text-[22px] font-bold text-ink-dark">
           Halaman tidak ditemukan
         </h1>
-        <p style={{ fontSize: 15, fontWeight: 500, color: "#55606d" }}>
+        <p className="text-[15px] font-medium text-ink-soft">
           Tautan mungkin salah atau halaman sudah dipindahkan.
         </p>
-        <Link
-          to="/"
-          className="cta-button"
-          style={{ marginTop: 16, textDecoration: "none" }}
-        >
+        <Link to="/" className="cta-button mt-4 inline-flex no-underline">
           Kembali ke beranda
         </Link>
       </div>

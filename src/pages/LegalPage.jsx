@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import "./LegalPage.css";
 
 const DOCS = {
   privacy: {
@@ -66,29 +65,51 @@ const DOCS = {
 
 export default function LegalPage({ doc }) {
   const data = DOCS[doc] || DOCS.privacy;
+
   return (
-    <div className="legal-shell">
-      <header className="legal-topbar">
-        <Link to="/" className="legal-brand">
+    <div className="min-h-screen bg-sand text-ink-mid">
+      <header className="mx-auto flex max-w-[760px] items-center justify-between px-[clamp(20px,5vw,56px)] py-[18px]">
+        <Link
+          to="/"
+          className="text-xl font-bold tracking-tight-md text-ink-dark no-underline"
+        >
           aikit
         </Link>
-        <Link to="/" className="legal-back">
+        <Link
+          to="/"
+          className="text-sm font-semibold text-ink-soft no-underline hover:text-ink-dark"
+        >
           ← Beranda
         </Link>
       </header>
-      <main className="legal-main">
-        <h1 className="legal-title">{data.title}</h1>
-        <p className="legal-updated">{data.updated}</p>
-        {data.sections.map((s) => (
-          <section key={s.h} className="legal-section">
-            <h2 className="legal-h2">{s.h}</h2>
-            <p className="legal-p">{s.p}</p>
+
+      <main className="mx-auto max-w-[760px] px-[clamp(20px,5vw,56px)] pb-[72px] pt-3">
+        <h1 className="mb-1.5 text-[clamp(26px,4vw,34px)] font-bold tracking-tight-lg text-ink-dark">
+          {data.title}
+        </h1>
+        <p className="mb-7 text-[13px] font-medium text-ink-muted">
+          {data.updated}
+        </p>
+
+        {data.sections.map((section) => (
+          <section key={section.h} className="mb-6">
+            <h2 className="mb-2 text-lg font-bold text-ink-dark">
+              {section.h}
+            </h2>
+            <p className="m-0 text-[15px] font-medium leading-relaxed text-ink-mid">
+              {section.p}
+            </p>
           </section>
         ))}
-        <div className="legal-links">
-          <Link to="/privacy">Kebijakan Privasi</Link>
-          <span>·</span>
-          <Link to="/terms">Syarat dan Ketentuan</Link>
+
+        <div className="mt-9 flex items-center gap-2.5 border-t border-border-muted pt-5 text-sm font-semibold">
+          <Link to="/privacy" className="text-amber no-underline hover:underline">
+            Kebijakan Privasi
+          </Link>
+          <span className="text-ink-faint">·</span>
+          <Link to="/terms" className="text-amber no-underline hover:underline">
+            Syarat dan Ketentuan
+          </Link>
         </div>
       </main>
     </div>

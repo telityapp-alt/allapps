@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./App.css";
 import { useAuth } from "./lib/AuthContext";
 import AuthModal from "./components/AuthModal.jsx";
 import { MASCOTS } from "./lib/mascots";
@@ -878,3 +877,4 @@ function App() {
 }
 
 export default App;
+

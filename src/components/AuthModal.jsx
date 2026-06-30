@@ -3,13 +3,17 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../lib/AuthContext";
 import { useToast } from "../lib/ToastContext";
 import { supabase } from "../lib/supabase";
-import "./AuthModal.css";
 
 /**
  * Login / Sign-up popover. Controlled by parent via `open` + `mode`.
- * Reuses platform tokens — no change to existing UI elements.
+ * Reuses platform tokens with Tailwind.
  */
-export default function AuthModal({ open, mode = "login", onClose, onModeChange }) {
+export default function AuthModal({
+  open,
+  mode = "login",
+  onClose,
+  onModeChange,
+}) {
   const { signIn, signUp } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
@@ -23,7 +27,6 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
   const isSignup = mode === "signup";
   const isForgot = mode === "forgot";
 
-  // Reset transient state whenever the modal opens or the mode flips.
   useEffect(() => {
     if (open) {
       setError("");
@@ -82,9 +85,12 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
   }
 
   return (
-    <div className="ak-auth-overlay" onMouseDown={onClose}>
+    <div
+      className="fixed inset-0 z-[9000] flex items-center justify-center bg-[rgba(13,29,56,0.32)] p-5 backdrop-blur-sm animate-auth-fade"
+      onMouseDown={onClose}
+    >
       <div
-        className="ak-auth-card"
+        className="relative w-[min(420px,100%)] rounded-[18px] border border-border-warm bg-cream px-7 pb-6 pt-[30px] shadow-modal animate-auth-pop"
         role="dialog"
         aria-modal="true"
         aria-label={isSignup ? "Daftar akun" : "Masuk"}
@@ -92,23 +98,25 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
       >
         <button
           type="button"
-          className="ak-auth-x"
+          className="absolute right-4 top-3.5 cursor-pointer border-none bg-transparent text-[22px] leading-none text-ink-muted hover:text-ink-mid"
           aria-label="Tutup"
           onClick={onClose}
         >
           ×
         </button>
 
-        <div className="ak-auth-head">
-          <span className="ak-auth-eyebrow">aikit</span>
-          <h2 className="ak-auth-title">
+        <div className="mb-5">
+          <span className="mb-2 inline-block text-[13px] font-bold tracking-[0.01em] text-amber">
+            aikit
+          </span>
+          <h2 className="mb-1.5 m-0 text-2xl font-bold leading-[1.15] tracking-tight-lg text-ink-dark">
             {isForgot
               ? "Reset password"
               : isSignup
                 ? "Buat akun gratis"
                 : "Masuk ke aikit"}
           </h2>
-          <p className="ak-auth-sub">
+          <p className="m-0 text-sm font-medium leading-[1.45] text-ink-soft">
             {isForgot
               ? "Masukkan email kamu, kami kirim link untuk atur ulang password."
               : isSignup
@@ -117,10 +125,12 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
           </p>
         </div>
 
-        <form className="ak-auth-form" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-3.5" onSubmit={handleSubmit}>
           {isSignup && (
-            <label className="ak-auth-field">
-              <span>Nama lengkap</span>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[13px] font-semibold text-ink-mid">
+                Nama lengkap
+              </span>
               <input
                 type="text"
                 autoComplete="name"
@@ -128,11 +138,13 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Nama kamu"
                 required
+                className="h-11 rounded-[10px] border border-border-warm bg-white px-[14px] text-[15px] text-ink-dark outline-none transition-[border-color,box-shadow] duration-120 placeholder:text-ink-muted focus:border-amber focus:shadow-[0_0_0_3px_rgba(246,166,30,0.18)]"
               />
             </label>
           )}
-          <label className="ak-auth-field">
-            <span>Email</span>
+
+          <label className="flex flex-col gap-1.5">
+            <span className="text-[13px] font-semibold text-ink-mid">Email</span>
             <input
               type="email"
               autoComplete="email"
@@ -140,11 +152,15 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
               onChange={(e) => setEmail(e.target.value)}
               placeholder="kamu@email.com"
               required
+              className="h-11 rounded-[10px] border border-border-warm bg-white px-[14px] text-[15px] text-ink-dark outline-none transition-[border-color,box-shadow] duration-120 placeholder:text-ink-muted focus:border-amber focus:shadow-[0_0_0_3px_rgba(246,166,30,0.18)]"
             />
           </label>
+
           {!isForgot && (
-            <label className="ak-auth-field">
-              <span>Password</span>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[13px] font-semibold text-ink-mid">
+                Password
+              </span>
               <input
                 type="password"
                 autoComplete={isSignup ? "new-password" : "current-password"}
@@ -153,6 +169,7 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
                 placeholder="Minimal 6 karakter"
                 minLength={6}
                 required
+                className="h-11 rounded-[10px] border border-border-warm bg-white px-[14px] text-[15px] text-ink-dark outline-none transition-[border-color,box-shadow] duration-120 placeholder:text-ink-muted focus:border-amber focus:shadow-[0_0_0_3px_rgba(246,166,30,0.18)]"
               />
             </label>
           )}
@@ -160,16 +177,24 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
           {!isSignup && !isForgot && (
             <button
               type="button"
-              className="ak-auth-forgot"
+              className="-mt-1 self-start border-none bg-transparent p-0 text-[13px] font-semibold text-ink-soft hover:text-ink-dark"
               onClick={() => onModeChange?.("forgot")}
             >
               Lupa password?
             </button>
           )}
 
-          {error && <div className="ak-auth-error">{error}</div>}
+          {error && (
+            <div className="rounded-lg border border-[#f0cfcf] bg-[#fceeee] px-[10px] py-2 text-[13px] font-semibold text-[#b23b3b]">
+              {error}
+            </div>
+          )}
 
-          <button type="submit" className="cta-button ak-auth-submit" disabled={busy}>
+          <button
+            type="submit"
+            className="cta-button mt-1 flex h-[46px] w-full justify-center disabled:cursor-progress disabled:opacity-65"
+            disabled={busy}
+          >
             {busy
               ? "Memproses..."
               : isForgot
@@ -180,13 +205,13 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
           </button>
 
           {isSignup && (
-            <p className="ak-auth-consent">
+            <p className="mt-3 text-center text-xs font-medium leading-[1.45] text-ink-muted">
               Dengan mendaftar, kamu menyetujui{" "}
-              <Link to="/terms" target="_blank">
+              <Link to="/terms" target="_blank" className="font-semibold text-amber no-underline hover:underline">
                 Syarat dan Ketentuan
               </Link>{" "}
               serta{" "}
-              <Link to="/privacy" target="_blank">
+              <Link to="/privacy" target="_blank" className="font-semibold text-amber no-underline hover:underline">
                 Kebijakan Privasi
               </Link>{" "}
               kami.
@@ -194,18 +219,26 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
           )}
         </form>
 
-        <div className="ak-auth-foot">
+        <div className="mt-[18px] text-center text-sm font-medium text-ink-soft">
           {isForgot ? (
             <span>
               Ingat password kamu?{" "}
-              <button type="button" onClick={() => onModeChange?.("login")}>
+              <button
+                type="button"
+                className="border-none bg-transparent p-0 font-bold text-amber hover:underline"
+                onClick={() => onModeChange?.("login")}
+              >
                 Masuk
               </button>
             </span>
           ) : isSignup ? (
             <span>
               Sudah punya akun?{" "}
-              <button type="button" onClick={() => onModeChange?.("login")}>
+              <button
+                type="button"
+                className="border-none bg-transparent p-0 font-bold text-amber hover:underline"
+                onClick={() => onModeChange?.("login")}
+              >
                 Masuk
               </button>
             </span>
@@ -213,13 +246,21 @@ export default function AuthModal({ open, mode = "login", onClose, onModeChange 
             <>
               <span>
                 Belum punya akun?{" "}
-                <button type="button" onClick={() => onModeChange?.("signup")}>
+                <button
+                  type="button"
+                  className="border-none bg-transparent p-0 font-bold text-amber hover:underline"
+                  onClick={() => onModeChange?.("signup")}
+                >
                   Daftar gratis
                 </button>
               </span>
-              <span className="ak-auth-resend">
+              <span className="mt-2 block text-[13px]">
                 Belum terima email konfirmasi?{" "}
-                <button type="button" onClick={resendConfirmation}>
+                <button
+                  type="button"
+                  className="border-none bg-transparent p-0 font-bold text-amber hover:underline"
+                  onClick={resendConfirmation}
+                >
                   Kirim ulang
                 </button>
               </span>
